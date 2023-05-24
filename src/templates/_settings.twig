@@ -1,0 +1,95 @@
+{% import '_includes/forms' as forms %}
+{% import 's3-logger/_macros' as macros %}
+
+{% set config = craft.app.config.getConfigFromFile('s3-logger') %}
+
+<div class="settings">
+    {{ forms.lightswitchField({
+        label: 'Enabled',
+        instructions: '',
+        id: 'enabled',
+        name: 'enabled',
+        on: settings.enabled,
+        errors: settings.getErrors('enabled'),
+        disabled: config.enabled is defined,
+        warning: macros.configWarning('enabled', 's3-logger')
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Access Key ID',
+        instructions: '',
+        id: 'accessKeyId',
+        name: 'accessKeyId',
+        value: settings.accessKeyId,
+        required: true,
+        errors: settings.getErrors('accessKeyId'),
+        disabled: config.accessKeyId is defined,
+        warning: macros.configWarning('accessKeyId', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Secret Access Key',
+        instructions: '',
+        id: 'secretAccessKey',
+        name: 'secretAccessKey',
+        value: settings.secretAccessKey,
+        required: true,
+        errors: settings.getErrors('secretAccessKey'),
+        disabled: config.secretAccessKey is defined,
+        warning: macros.configWarning('secretAccessKey', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Region',
+        instructions: '',
+        id: 'region',
+        name: 'region',
+        value: settings.region,
+        required: true,
+        errors: settings.getErrors('region'),
+        disabled: config.region is defined,
+        warning: macros.configWarning('region', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Bucket',
+        instructions: '',
+        id: 'bucket',
+        name: 'bucket',
+        value: settings.bucket,
+        required: true,
+        errors: settings.getErrors('bucket'),
+        disabled: config.bucket is defined,
+        warning: macros.configWarning('bucket', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Rotate Logs at Bytes',
+        instructions: '',
+        id: 'rotateLogsAtBytes',
+        name: 'rotateLogsAtBytes',
+        value: settings.rotateLogsAtBytes|default(10000000),
+        required: true,
+        errors: settings.getErrors('rotateLogsAtBytes'),
+        disabled: config.rotateLogsAtBytes is defined,
+        warning: macros.configWarning('rotateLogsAtBytes', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
+        label: 'Directory',
+        instructions: '',
+        id: 'dir',
+        name: 'dir',
+        value: settings.dir|default('_logs'),
+        required: false,
+        errors: settings.getErrors('dir'),
+        disabled: config.dir is defined,
+        warning: macros.configWarning('dir', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+</div>

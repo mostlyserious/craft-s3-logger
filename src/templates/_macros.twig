@@ -1,0 +1,6 @@
+{%- macro configWarning(setting, file) -%}
+    {%- set config = craft.app.config.getConfigFromFile('s3-logger') -%}
+    {%- if config[setting] is defined -%}
+        This is being overridden by the `{{ setting }}` setting in the `config/{{ file }}.php` file.
+    {%- endif -%}
+{%- endmacro -%}

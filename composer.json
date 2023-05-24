@@ -1,0 +1,31 @@
+{
+    "name": "mostlyserious/craft-s3-logger",
+    "description": "",
+    "type": "craft-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mostly Serious",
+            "homepage": "https://www.mostlyserious.io"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MostlySerious\\S3Logger\\": "src/"
+        }
+    },
+    "require": {
+        "craftcms/cms": "^4.0.0",
+        "aws/aws-sdk-php": "^3.271"
+    },
+    "extra": {
+        "name": "S3 Logger",
+        "handle": "s3-logger"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    }
+}
