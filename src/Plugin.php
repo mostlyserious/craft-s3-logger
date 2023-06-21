@@ -4,6 +4,7 @@ namespace MostlySerious\S3Logger;
 
 use Craft;
 use yii\base\Event;
+use yii\log\Logger;
 use craft\base\Model;
 use craft\services\Plugins;
 use craft\helpers\UrlHelper;
@@ -27,7 +28,7 @@ class Plugin extends BasePlugin
         if (self::$plugin->settings->getIsValid()) {
             Craft::$app->log->targets['s3'] = Craft::createObject([
                 'class' => S3Target::class,
-                'levels' => [ 'error', 'warning' ]
+                'levels' => Logger::LEVEL_ERROR | Logger::LEVEL_WARNING
             ]);
         }
 

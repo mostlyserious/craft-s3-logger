@@ -2,7 +2,8 @@
 
 namespace MostlySerious\S3Logger\Log;
 
-use Exception;
+use DateTime;
+use DateInterval;
 use yii\log\Target;
 use Aws\S3\S3Client;
 use Aws\Credentials\Credentials;
@@ -46,6 +47,11 @@ class S3Target extends Target
     protected string $dir;
 
     /**
+     * @var int The maximum number of days logs are retained.
+     */
+    protected int $retention_by_day;
+
+    /**
      * @var int The maximum size in bytes for log rotation.
      */
     protected int $rotate_logs_at_bytes;
@@ -65,6 +71,7 @@ class S3Target extends Target
         $this->today = gmdate('Y-m-d');
         $this->dir = Plugin::$plugin->settings->getDir();
         $this->bucket = Plugin::$plugin->settings->getBucket();
+        $this->retention_by_day = Plugin::$plugin->settings->getRetentionByDay();
         $this->rotate_logs_at_bytes = Plugin::$plugin->settings->getRotateLogsAtBytes();
         $this->key = trim(sprintf('%s/%s.log', $this->dir, $this->today), '/');
 
@@ -105,6 +112,28 @@ class S3Target extends Target
             } else {
                 $this->deleteObject();
                 $this->putNewObject((string) $object['Body'] . $message);
+            }
+
+            if ($this->retention_by_day) {
+                $date = new DateTime();
+                $interval = new DateInterval(sprintf('P%dD', $this->retention_by_day));
+                $limit_date = $date->sub($interval)->format('U');
+
+                $objects = $this->client->getPaginator('ListObjects', [
+                    'Bucket' => $this->bucket,
+                    'Prefix' => $this->dir
+                ]);
+
+                foreach ($objects as $list) {
+                    foreach ($list['Contents'] as $object) {
+                        if (strtotime($object['LastModified']) < $limit_date) {
+                            $this->client->deleteObject([
+                                'Bucket' => $this->bucket,
+                                'Key' => $object['Key']
+                            ]);
+                        }
+                    }
+                }
             }
         } catch (S3Exception $e) {
             $this->putNewObject($message);

@@ -81,6 +81,18 @@
     }) }}
 
     {{ forms.autosuggestField({
+        label: 'Log Retention In Days',
+        instructions: 'An empty value or `0` will retain files indefinitely.',
+        id: 'retentionByDay',
+        name: 'retentionByDay',
+        value: settings.retentionByDay|default(90),
+        errors: settings.getErrors('retentionByDay'),
+        disabled: config.retentionByDay is defined,
+        warning: macros.configWarning('retentionByDay', 's3-logger'),
+        suggestEnvVars: true
+    }) }}
+
+    {{ forms.autosuggestField({
         label: 'Directory',
         instructions: '',
         id: 'dir',

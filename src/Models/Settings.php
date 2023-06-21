@@ -29,6 +29,11 @@ class Settings extends Model
     public string $dir = '_logs';
 
     /**
+     * @var int The maximum number of days logs are retained.
+     */
+    public int $retentionByDay = 90;
+
+    /**
      * @var int The maximum size in bytes for log rotation.
      */
     public int $rotateLogsAtBytes = 10000000;
@@ -99,6 +104,16 @@ class Settings extends Model
     }
 
     /**
+     * Get the maximum number of days logs are retained.
+     *
+     * @return int The maximum number of days logs are retained.
+     */
+    public function getRetentionByDay(): int
+    {
+        return (int) App::parseEnv($this->retentionByDay);
+    }
+
+    /**
      * Get the AWS region.
      *
      * @return string The AWS region for the S3 bucket.
@@ -148,7 +163,7 @@ class Settings extends Model
         return [
             'parser' => [
                 'class' => EnvAttributeParserBehavior::class,
-                'attributes' => [ 'dir', 'rotateLogsAtBytes', 'region', 'bucket', 'accessKeyId', 'secretAccessKey' ],
+                'attributes' => [ 'dir', 'rotateLogsAtBytes', 'retentionByDay', 'region', 'bucket', 'accessKeyId', 'secretAccessKey' ],
             ],
         ];
     }
@@ -161,9 +176,10 @@ class Settings extends Model
     protected function defineRules(): array
     {
         return [
-            [ [ 'dir', 'rotateLogsAtBytes', 'region', 'bucket', 'accessKeyId', 'secretAccessKey' ], 'required' ],
+            [ [ 'dir', 'rotateLogsAtBytes', 'retentionByDay', 'region', 'bucket', 'accessKeyId', 'secretAccessKey' ], 'required' ],
             [ [ 'dir', 'region', 'bucket', 'accessKeyId', 'secretAccessKey'], StringValidator::class ],
-            [ [ 'rotateLogsAtBytes' ], NumberValidator::class, 'integerOnly' => true, 'min' => 1e+6 ]
+            [ [ 'rotateLogsAtBytes' ], NumberValidator::class, 'integerOnly' => true, 'min' => 1e+6 ],
+            [ [ 'retentionByDay' ], NumberValidator::class, 'integerOnly' => true, 'min' => 0 ]
         ];
     }
 }
