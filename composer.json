@@ -16,7 +16,7 @@
     },
     "require": {
         "craftcms/cms": "^4.0.0",
-        "aws/aws-sdk-php": "^3.271"
+        "aws/aws-sdk-php": "3.*"
     },
     "extra": {
         "name": "S3 Logger",
