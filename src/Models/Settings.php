@@ -88,7 +88,7 @@ class Settings extends Model
      *
      * @return string The directory for logs.
      */
-    public function getDir(): string
+    public function getDir(): ?string
     {
         return App::parseEnv($this->dir);
     }
@@ -118,7 +118,7 @@ class Settings extends Model
      *
      * @return string The AWS region for the S3 bucket.
      */
-    public function getRegion(): string
+    public function getRegion(): ?string
     {
         return App::parseEnv($this->region);
     }
@@ -128,7 +128,7 @@ class Settings extends Model
      *
      * @return string The name of the S3 bucket.
      */
-    public function getBucket(): string
+    public function getBucket(): ?string
     {
         return App::parseEnv($this->bucket);
     }
@@ -138,7 +138,7 @@ class Settings extends Model
      *
      * @return string The AWS access key ID.
      */
-    public function getAccessKeyId(): string
+    public function getAccessKeyId(): ?string
     {
         return App::parseEnv($this->accessKeyId);
     }
@@ -148,7 +148,7 @@ class Settings extends Model
      *
      * @return string The AWS secret access key.
      */
-    public function getSecretAccessKey(): string
+    public function getSecretAccessKey(): ?string
     {
         return App::parseEnv($this->secretAccessKey);
     }
