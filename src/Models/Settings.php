@@ -86,7 +86,7 @@ class Settings extends Model
     /**
      * Get the directory for logs.
      *
-     * @return string The directory for logs.
+     * @return ?string The directory for logs.
      */
     public function getDir(): ?string
     {
@@ -116,7 +116,7 @@ class Settings extends Model
     /**
      * Get the AWS region.
      *
-     * @return string The AWS region for the S3 bucket.
+     * @return ?string The AWS region for the S3 bucket.
      */
     public function getRegion(): ?string
     {
@@ -126,7 +126,7 @@ class Settings extends Model
     /**
      * Get the S3 bucket name.
      *
-     * @return string The name of the S3 bucket.
+     * @return ?string The name of the S3 bucket.
      */
     public function getBucket(): ?string
     {
@@ -136,7 +136,7 @@ class Settings extends Model
     /**
      * Get the AWS access key ID.
      *
-     * @return string The AWS access key ID.
+     * @return ?string The AWS access key ID.
      */
     public function getAccessKeyId(): ?string
     {
@@ -146,7 +146,7 @@ class Settings extends Model
     /**
      * Get the AWS secret access key.
      *
-     * @return string The AWS secret access key.
+     * @return ?string The AWS secret access key.
      */
     public function getSecretAccessKey(): ?string
     {
